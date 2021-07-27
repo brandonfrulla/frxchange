@@ -59,6 +59,18 @@ contract(Frxchange,([deployer, investor]) => {
         it('FRXT purchase from frxchange test', async () => {
             let investorBalance = await token.balanceOf(investor)
             assert.equal(investorBalance, tokens('100'))
+
+            let excg_token_balance = await token.balanceOf(frxchange.address)
+            assert.equal(excg_token_balance, tokens('999900'))
+
+            let excg_eth_balance = await web3.eth.getBalance(frxchange.address)
+            assert.equal(excg_eth_balance, web3.utils.toWei('1', 'ether'))
+
+            const event = result.logs[0].args
+            assert.equal(event.account, investor)
+            assert.equal(event.token, token.address)
+            assert.equal(event.amount.toString(), tokens('100').toString())
+            assert.equal(event.rate.toString(), '100')
         })
     })
 
