@@ -8,7 +8,7 @@ module.exports = async function(deployer) {
   const token = await Token.deployed()
 
   //deploy exchange
-  await deployer.deploy(Frxchange);
+  await deployer.deploy(Frxchange, token.address);
   const frxchange = await Frxchange.deployed()
 
   //transfer to exchange
